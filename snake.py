@@ -105,6 +105,7 @@ def move_snake():
         quit()
     turtle.ontimer(move_snake,TIME_STEP)
 
+
     #4. Write the conditions for UP and DOWN on your own
     ##### YOUR CODE HERE
     #Stamp new element and append new stamp in list
@@ -119,19 +120,45 @@ def move_snake():
     old_stamp = stamp_list.pop(0)
     snake.clearstamp(old_stamp)
     pos_list.pop(0)
+    global food_stamps, food_pos
+    if snake.pos() in food_pos:
+        food_ind = food_pos.index(snake.pos())
+        food.clearstamp(food_stamps[food_ind])
+
+        food_pos.pop(food_ind)
+        food_stamps.pop(food_ind)
+        print("nooo!! you are breaking my record")
+        make_food()
 move_snake()
 turtle.register_shape("trash.gif")
 
+
 food = turtle.clone()
-food_pos = [(100,100), (-100,100), (-100,-100), (100,-100)]
+food.shape("trash.gif")
+
+food_pos = [(100,100)]
 food_stamps = []
 
 for this_food_pos in food_pos:
-    x = this_food_pos [0]
+    x = this_food_pos[0]
     y=this_food_pos[1]
     food.goto(x,y)
     food_stamp=food.stamp()
     food_stamps.append(food_stamp)
-    food_stamp.clearstamp()
+    #food.clearstamp(food_stamp)
+def make_food():
+    min_x = -int(SIZE_X/2/SQUARE_SIZE)+1
+    max_x = int(SIZE_X/2/SQUARE_SIZE)-1
+    min_y = -int(SIZE_Y/2/SQUARE_SIZE)+1
+    max_y = int(SIZE_Y/2/SQUARE_SIZE)-1
 
-    food.mainloop()
+    food_x = random.randint(min_x,max_x)*SQUARE_SIZE
+    food_y = random.randint(min_y,max_y)*SQUARE_SIZE
+    food.goto(food_x,food_y)
+    randoom_food = (food_x,food_y)
+    randoom_food_stamp = food.stamp()
+    food_pos.append(randoom_food)
+    food_stamps.append(randoom_food_stamp)
+
+if 
+    
