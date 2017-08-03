@@ -1,6 +1,7 @@
 import turtle
 import random #We'll need this later in the lab
 
+
 turtle.tracer(1,0) #This helps the turtle move more smoothly
 
 SIZE_X=800
@@ -18,6 +19,17 @@ pos_list = []
 stamp_list = []
 food_pos = []
 food_stamps = []
+
+import time
+
+turtle.register_shape("snake1.gif")
+snake1 = turtle.clone()
+snake1.shape("snake1.gif")
+snake1.goto(0,0)
+snakestamp=snake1.stamp()
+time.sleep(2)
+snake1.clearstamp(snakestamp)
+snake1.hideturtle()
 
 #Set up positions (x,y) of boxes that make up the snake
 snake = turtle.clone()
@@ -103,6 +115,9 @@ def move_snake():
     if not x_ok or not y_ok:
         print("You hit the boundaries! You lose hahaha")
         quit()
+    if pos_list[-1] in pos_list[0:-2]:
+        print("you just hitted yourself")
+        quit()
     turtle.ontimer(move_snake,TIME_STEP)
 
 
@@ -124,15 +139,15 @@ def move_snake():
     if snake.pos() in food_pos:
         food_ind = food_pos.index(snake.pos())
         food.clearstamp(food_stamps[food_ind])
-
+        new_stamp_length = snake.stamp()
+        stamp_list.append(new_stamp_length)
         food_pos.pop(food_ind)
         food_stamps.pop(food_ind)
         print("nooo!! you are breaking my record")
         make_food()
 move_snake()
+
 turtle.register_shape("trash.gif")
-
-
 food = turtle.clone()
 food.shape("trash.gif")
 
@@ -145,6 +160,7 @@ for this_food_pos in food_pos:
     food.goto(x,y)
     food_stamp=food.stamp()
     food_stamps.append(food_stamp)
+    START_LENGTH = START_LENGTH
     #food.clearstamp(food_stamp)
 def make_food():
     min_x = -int(SIZE_X/2/SQUARE_SIZE)+1
@@ -160,5 +176,3 @@ def make_food():
     food_pos.append(randoom_food)
     food_stamps.append(randoom_food_stamp)
 
-if 
-    
